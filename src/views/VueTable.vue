@@ -30,13 +30,13 @@
           </el-col>
           <el-col :span="3">
             <div>
-            <el-input v-model="searchWord" style="display: inline-block;width: 230px"
-                      placeholder="请输入搜索内容">
-            </el-input>
+              <el-input v-model="searchWord" style="display: inline-block;width: 230px"
+                        placeholder="请输入搜索内容">
+              </el-input>
 
             </div>
-          </el-col >
-          <el-col  :span="2">
+          </el-col>
+          <el-col :span="2">
             <el-button type="button" @click="search(searchWord)">搜索
             </el-button>
           </el-col>
@@ -44,25 +44,29 @@
 
       </el-header>
       <el-main>
-        <el-table :data="tableData" stripe=true border style="width: 100%">
+        <el-table @sort-change="sortChange" :data="tableData" stripe=true border style="width: 100%">
           <!-- <button @click="selectDemo">点击请求</button> -->
-          <el-table-column label="序号" type="index" width="60"></el-table-column>
-          <el-table-column label="姓名" width="180">
+          <el-table-column label="序号"  width="120">
+            <template slot-scope="scope">
+              <span style="margin-left: 10px">{{(currentPage-1) * pageSize +tableData.indexOf(scope.row) +1 }} </span>
+            </template>
+          </el-table-column>
+          <el-table-column prop="name" label="姓名" sortable="custom" width="180">
             <template slot-scope="scope">
               <span style="margin-left: 10px">{{ scope.row.name }}</span>
             </template>
           </el-table-column>
-          <el-table-column label="性别" width="180">
+          <el-table-column prop="sex" label="性别" sortable="custom" width="180">
             <template slot-scope="scope">
               <span style="margin-left: 10px">{{ scope.row.sex }}</span>
             </template>
           </el-table-column>
-          <el-table-column label="地址" width="180">
+          <el-table-column prop="address" label="地址" sortable="custom" width="180">
             <template slot-scope="scope">
               <span style="margin-left: 10px">{{ scope.row.address }}</span>
             </template>
           </el-table-column>
-          <el-table-column label="日期" width="180">
+          <el-table-column prop="create_datetime" label="日期" sortable="custom" width="180">
             <template slot-scope="scope">
               <i class="el-icon-time"></i>
               <span style="margin-left: 10px">{{ scope.row.date }}</span>
@@ -101,7 +105,8 @@
         </el-table>
       </el-main>
       <el-footer>
-        <el-pagination v-if="pageshow" @size-change="handleSizeChange" @current-change="handleCurrentChange"
+        <el-pagination v-if="pageshow" @size-change="handleSizeChange"
+                       @current-change="handleCurrentChange"
                        :current-page="currentPage" :page-sizes="[5, 10, 50, 100]"
                        :page-size="pageSize" layout="total, sizes, prev, pager, next, jumper"
                        :total="totalNum">
@@ -126,6 +131,8 @@
           address: '',
           sex: ''
         },
+        sortColumn:'',//排序的字段名
+        sortMethod:'',//排序方式；descending ascending null
         pageshow: true,
         searchWord: '',//搜索字段
         currentPage: 1,//当前页
@@ -140,7 +147,7 @@
     },
     mounted: function () {
       // this.getCount(this.searchWord);
-      this.getInfoByPage(this.searchWord, this.currentPage, this.pageSize);
+      this.getInfoByPage(this.searchWord, this.currentPage, this.pageSize,this.sortColumn,this.sortMethod);
     },
     methods: {
       //每次添加完之后清空form，防止下次点击添加时，数据残留
@@ -181,7 +188,7 @@
           .then((response) => {
             this.modifFlag = response.data;
             if (this.modifFlag > 0) {
-              this.getInfoByPage(this.searchWord, this.currentPage, this.pageSize);
+              this.getInfoByPage(this.searchWord, this.currentPage, this.pageSize,this.sortColumn,this.sortMethod);
               // this.selectDemo();
               this.$message('修改成功！');
             }
@@ -220,16 +227,27 @@
             console.log(response);
           });
       },
-      search:function (searchWord) {
+      search: function (searchWord) {
         this.currentPage = 1;//搜索完毕后默认第一页
-        this.getInfoByPage(searchWord,this.currentPage,this.pageSize);
+        this.getInfoByPage(searchWord, this.currentPage, this.pageSize,this.sortColumn,this.sortMethod);
       },
-      getInfoByPage: function (searchWord, currentPage, pageSize) {
+      sortChange(column){
+        this.sortColumn = column.prop;
+        this.sortMethod = column.order;
+        if(column.order === null){
+          this.sortMethod = "";
+        }
+        this.getInfoByPage(this.searchWord, this.currentPage, this.pageSize,this.sortColumn,this.sortMethod);
+        console.log(column = '-' + column.prop +'-'+column.order);
+      },
+      getInfoByPage: function (searchWord, currentPage, pageSize,sortColumn,sortMethod) {
         this.getCount(searchWord);
         var params = new URLSearchParams();
         params.append('searchWord', searchWord);
         params.append('pageNum', currentPage);
         params.append('pageSize', pageSize);
+        params.append('sortColumn', sortColumn);
+        params.append('sortMethod', sortMethod);
         this.$axios({
           url: 'http://127.0.0.1:8000/api/persons/getInfoByPage',
           method: 'post',
@@ -277,7 +295,7 @@
           .then((response) => {
             // this.open();
             // this.selectDemo();
-            this.getInfoByPage(this.searchWord, this.currentPage, this.pageSize);
+            this.getInfoByPage(this.searchWord, this.currentPage, this.pageSize,this.sortColumn,this.sortMethod);
             console.log(response.data);
           })
           .catch(function (response) {
@@ -321,7 +339,7 @@
             } else {
               this.$message('插入失败！');
             }
-            this.getInfoByPage(this.searchWord, this.currentPage, this.pageSize);
+            this.getInfoByPage(this.searchWord, this.currentPage, this.pageSize,this.sortColumn,this.sortMethod);
           })
           .catch(function (response) {
           });
@@ -329,12 +347,12 @@
       //分页
       handleSizeChange(val) {
         this.pageSize = val;
-        this.getInfoByPage(this.searchWord, this.currentPage, this.pageSize);
+        this.getInfoByPage(this.searchWord, this.currentPage, this.pageSize,this.sortColumn,this.sortMethod);
         console.log(`每页 ${val} 条`);
       },
       handleCurrentChange(val) {
         this.currentPage = val;
-        this.getInfoByPage(this.searchWord, this.currentPage, this.pageSize);
+        this.getInfoByPage(this.searchWord, this.currentPage, this.pageSize,this.sortColumn,this.sortMethod);
         console.log(`当前页: ${val}`);
       }
     }
