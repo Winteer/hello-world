@@ -5,7 +5,10 @@ import store from './store'
 import axios from 'axios'
 import VueAxios from 'vue-axios'
 import ElementUI from 'element-ui'
+import mavonEditor from 'mavon-editor'
+import 'mavon-editor/dist/css/index.css'
 
+Vue.use(mavonEditor)
 Vue.config.productionTip = false;
 Vue.prototype.$axios = axios
 Vue.use(ElementUI);

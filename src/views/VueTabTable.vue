@@ -1,8 +1,12 @@
 <template>
-  <div id="vueTable">
+  <div id="vueTabTable">
     <!-- Form -->
     <el-container style="height: 100%; border: 1px solid #eee">
       <el-header style="text-align: left; font-size: 12px">
+        <nav-menu></nav-menu>
+
+      </el-header>
+      <el-main>
         <el-row :gutter="20">
           <el-col :span="2">
             <el-button type="button" @click="initForm(),dialogFormVisible = true">增加信息
@@ -40,9 +44,6 @@
             </el-button>
           </el-col>
         </el-row>
-
-      </el-header>
-      <el-main>
         <el-table @sort-change="sortChange" :data="tableData" stripe=true border style="width: 100%">
           <!-- <button @click="selectDemo">点击请求</button> -->
           <el-table-column label="序号"  width="120">
@@ -65,7 +66,7 @@
               <span style="margin-left: 10px">{{ scope.row.address }}</span>
             </template>
           </el-table-column>
-          <el-table-column prop="create_datetime" label="日期" sortable="custom" width="180">
+          <el-table-column prop="create_datetime" label="日期" sortable="custom" width="200">
             <template slot-scope="scope">
               <i class="el-icon-time"></i>
               <span style="margin-left: 10px">{{ scope.row.date }}</span>
@@ -96,7 +97,7 @@
                   </el-form-item>
                 </el-form>
               </el-dialog>
-              <el-button slot="reference" icon="el-icon-edit"
+              <el-button slot="reference" size="mini" icon="el-icon-edit"
                          @click="getForm(scope.row.id),modifyDialogFormVisible = true">修改
               </el-button>
             </template>
@@ -115,7 +116,11 @@
   </div>
 </template>
 <script>
+  import NavMenu from '../components/NavMenu';
   export default {
+    components:{
+      'nav-menu':NavMenu
+    },
     data: function () {
       return {
         tableData: [{

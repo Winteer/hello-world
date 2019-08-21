@@ -1,24 +1,34 @@
 <template>
   <div id="TableDemo">
-      <el-button type="text" @click="dialogVisible = true">点击打开 Dialog</el-button>
-
-      <el-dialog
-        title="提示"
-        :visible.sync="dialogVisible"
-        width="30%"
-        :before-close="handleClose">
-        <span>这是一段信息</span>
-        <span slot="footer" class="dialog-footer">
+    <el-container style="height: 100%; border: 1px solid #eee">
+      <el-header style="text-align: left; font-size: 12px">
+        <nav-menu></nav-menu>
+      </el-header>
+      <el-main>
+        <el-button type="text" @click="dialogVisible = true">点击打开 Dialog</el-button>
+        <el-dialog
+          title="提示"
+          :visible.sync="dialogVisible"
+          width="30%"
+          :before-close="handleClose">
+          <span>这是一段信息</span>
+          <span slot="footer" class="dialog-footer">
     <el-button @click="dialogVisible = false">取 消</el-button>
     <el-button type="primary" @click="dialogVisible = false">确 定</el-button>
   </span>
-      </el-dialog>
+        </el-dialog>
+      </el-main>
+    </el-container>
     </div>
 </template>
 
 <script>
+  import NavMenu from './NavMenu';
   export default {
     name: 'TableDemo',
+    components:{
+      'nav-menu': NavMenu
+    },
     data() {
       return {
         dialogVisible: false

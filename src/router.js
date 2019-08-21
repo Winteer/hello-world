@@ -4,6 +4,11 @@ import Home from './views/Home.vue'
 import VueTable from './views/VueTable.vue'
 import Info from './views/Info.vue'
 import TableDemo from './components/TableDemo.vue'
+import NavDemo from './views/NavDemo';
+import quiNav from './components/quiNav';
+import NavMenu from './components/NavMenu';
+import VueTabTable from './views/VueTabTable';
+import MarkDownEditer from './components/MarkDownEditer';
 
 Vue.use(Router)
 
@@ -22,9 +27,34 @@ export default new Router({
       component: Info
     },
     {
+      path: '/navDemo',
+      name: 'navDemo',
+      component: NavDemo
+    },
+    {
+      path: '/quiNav',
+      name: 'quiNav',
+      component: quiNav
+    },
+    {
+      path: '/markDownEditer',
+      name: 'markDownEditer',
+      component: MarkDownEditer
+    },
+    {
       path: '/vueTable',
       name: 'vueTable',
       component: VueTable
+    },
+    {
+      path: '/vueTabTable',
+      name: 'vueTabTable',
+      component: VueTabTable
+    },
+    {
+      path: '/navMenu',
+      name: 'navMenu',
+      component: NavMenu
     },
     {
       path: '/tableDemo',
