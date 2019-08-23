@@ -9,6 +9,7 @@ import quiNav from './components/quiNav';
 import NavMenu from './components/NavMenu';
 import VueTabTable from './views/VueTabTable';
 import MarkDownEditer from './components/MarkDownEditer';
+import CustomRecord from './views/CustomRecord';
 
 Vue.use(Router)
 
@@ -50,6 +51,11 @@ export default new Router({
       path: '/vueTabTable',
       name: 'vueTabTable',
       component: VueTabTable
+    },
+    {
+      path: '/customRecord',
+      name: 'customRecord',
+      component: CustomRecord
     },
     {
       path: '/navMenu',

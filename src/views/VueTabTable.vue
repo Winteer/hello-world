@@ -4,23 +4,23 @@
     <el-container style="height: 100%; border: 1px solid #eee">
       <el-header style="text-align: left; font-size: 12px">
         <nav-menu></nav-menu>
-
       </el-header>
+
       <el-main>
         <el-row :gutter="20">
           <el-col :span="2">
             <el-button type="button" @click="initForm(),dialogFormVisible = true">增加信息
             </el-button>
             <el-dialog title="新增" :visible.sync="dialogFormVisible">
-              <el-form ref="form" :model="form" label-width="80px">
-                <el-form-item label="名称">
-                  <el-input v-model="form.name"></el-input>
+              <el-form ref="form"  :model="form" label-width="80px" style="text-align: left; font-size: 12px">
+                <el-form-item label="名称"  style="margin-left: 10px">
+                  <el-input v-model="form.name" style="margin-right: 10px;display: inline-block;width: 230px"></el-input>
                 </el-form-item>
                 <el-form-item label="地址">
-                  <el-input v-model="form.address"></el-input>
+                  <el-input v-model="form.address" style="display: inline-block;width: 230px"></el-input>
                 </el-form-item>
                 <el-form-item label="性别">
-                  <el-input v-model="form.sex"></el-input>
+                  <el-input v-model="form.sex" style="display: inline-block;width: 230px"></el-input>
                 </el-form-item>
                 <el-form-item>
                   <!-- <el-button type="primary" @click="onSubmit(form.name,form.address,form.sex)">立即创建</el-button> -->
@@ -34,7 +34,8 @@
           <el-col :span="3">
             <div>
               <el-input v-model="searchWord" style="display: inline-block;width: 230px"
-                        placeholder="请输入搜索内容">
+                        placeholder="请输入搜索内容"
+                        clearable>
               </el-input>
 
             </div>
