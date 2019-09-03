@@ -1,12 +1,12 @@
 <template>
   <div id="NavDemo">
     <qui-nav v-on:navClickEvent="dosth"></qui-nav>
+    <VueUeditor v-model="content"></VueUeditor>
   </div>
 </template>
 
 <script>
   import quiNav from '../components/quiNav.vue';
-
   export default {
     name: 'NavDemo',
     components: {

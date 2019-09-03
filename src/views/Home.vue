@@ -15,6 +15,9 @@
     <div>
       <router-link to="/customRecord">访客记录</router-link>
     </div>
+    <div>
+      <router-link to="/editor">编辑器</router-link>
+    </div>
   </div>
 </template>
 

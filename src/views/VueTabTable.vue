@@ -13,7 +13,7 @@
             </el-button>
             <el-dialog title="新增" :visible.sync="dialogFormVisible">
               <el-form ref="form"  :model="form" label-width="80px" style="text-align: left; font-size: 12px">
-                <el-form-item label="名称"  style="margin-left: 10px">
+                <el-form-item label="名称"  style="margin-left: 0px">
                   <el-input v-model="form.name" style="margin-right: 10px;display: inline-block;width: 230px"></el-input>
                 </el-form-item>
                 <el-form-item label="地址">

@@ -10,6 +10,7 @@ import NavMenu from './components/NavMenu';
 import VueTabTable from './views/VueTabTable';
 import MarkDownEditer from './components/MarkDownEditer';
 import CustomRecord from './views/CustomRecord';
+import editor from './views/editor';
 
 Vue.use(Router)
 
@@ -61,6 +62,11 @@ export default new Router({
       path: '/navMenu',
       name: 'navMenu',
       component: NavMenu
+    },
+    {
+      path: '/editor',
+      name: 'editor',
+      component: editor
     },
     {
       path: '/tableDemo',
