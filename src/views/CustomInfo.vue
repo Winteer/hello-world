@@ -13,17 +13,26 @@
             </el-button>
             <el-dialog title="新增" :visible.sync="dialogFormVisible">
               <el-form ref="form"  :model="form" label-width="80px" style="text-align: left; font-size: 12px">
-                <el-form-item label="预约时间"  style="margin-left: 0px">
-                  <el-input v-model="form.book_time" style="margin-right: 10px;display: inline-block;width: 230px"></el-input>
+<!--                <el-form-item label="预约时间"  style="margin-left: 0px" >-->
+<!--                  <el-input v-model="form.book_time" style="margin-right: 10px;display: inline-block;width: 230px" placeholder="请输入内容" clearable></el-input>-->
+<!--                </el-form-item>-->
+                <el-form-item label="预约时间"  style="margin-left: 0px" >
+                  <div class="block">
+                    <el-date-picker
+                      v-model="form.book_time"
+                      type="datetime"
+                      placeholder="选择日期时间">
+                    </el-date-picker>
+                  </div>
                 </el-form-item>
                 <el-form-item label="预约主题">
-                  <el-input v-model="form.room" style="display: inline-block;width: 230px"></el-input>
+                  <el-input v-model="form.room" style="display: inline-block;width: 230px" placeholder="请输入内容" clearable></el-input>
                 </el-form-item>
                 <el-form-item label="预约人数">
-                  <el-input v-model="form.number" style="display: inline-block;width: 230px"></el-input>
+                  <el-input v-model="form.number" style="display: inline-block;width: 230px" placeholder="请输入内容" clearable></el-input>
                 </el-form-item>
                 <el-form-item label="预约号码">
-                  <el-input v-model="form.phone" style="display: inline-block;width: 230px"></el-input>
+                  <el-input v-model="form.phone" style="display: inline-block;width: 230px" placeholder="请输入内容" clearable></el-input>
                 </el-form-item>
                 <el-form-item>
                   <!-- <el-button type="primary" @click="onSubmit(form.name,form.address,form.sex)">立即创建</el-button> -->
@@ -101,16 +110,43 @@
               <el-dialog title="新增" :visible.sync="modifyDialogFormVisible">
                 <el-form ref="form" :model="form" label-width="80px">
                   <el-form-item label="预约时间">
-                    <el-input v-model="form.book_time"></el-input>
+<!--                    <el-input v-model="form.book_time" style="display: inline-block;width: 230px"></el-input>-->
+                    <div class="block">
+                      <el-date-picker
+                        v-model="form.book_time"
+                        type="datetime"
+                        placeholder="选择日期时间">
+                      </el-date-picker>
+                    </div>
                   </el-form-item>
                   <el-form-item label="预约主题">
-                    <el-input v-model="form.room"></el-input>
+                    <el-input v-model="form.room" style="display: inline-block;width: 230px"></el-input>
                   </el-form-item>
                   <el-form-item label="预约人数">
-                    <el-input v-model="form.number"></el-input>
+                    <el-input v-model="form.number" style="display: inline-block;width: 230px"></el-input>
                   </el-form-item>
                    <el-form-item label="手机号码">
-                    <el-input v-model="form.phone"></el-input>
+                    <el-input v-model="form.phone" style="display: inline-block;width: 230px"></el-input>
+                  </el-form-item>
+                  <el-form-item label="开始时间">
+<!--                    <el-input v-model="form.start_time" style="display: inline-block;width: 230px"></el-input>-->
+                    <div class="block">
+                      <el-date-picker
+                        v-model="form.start_time"
+                        type="datetime"
+                        placeholder="选择日期时间">
+                      </el-date-picker>
+                    </div>
+                  </el-form-item>
+                  <el-form-item label="结束时间">
+<!--                    <el-input v-model="form.end_time" style="display: inline-block;width: 230px"></el-input>-->
+                    <div class="block">
+                      <el-date-picker
+                        v-model="form.end_time"
+                        type="datetime"
+                        placeholder="选择日期时间">
+                      </el-date-picker>
+                    </div>
                   </el-form-item>
                   <el-form-item>
                     <!-- <el-button type="primary" @click="onSubmit(form.name,form.address,form.sex)">立即创建</el-button> -->
@@ -189,9 +225,13 @@
       //每次添加完之后清空form，防止下次点击添加时，数据残留
       initForm: function () {
         this.form.id = 0;
-        this.form.name = '';
-        this.form.address = '';
-        this.form.sex = '';
+        this.form.book_time = '';
+        this.form.phone = '';
+        this.form.room = '';
+        this.form.number = '';
+        // this.form.start_time = '';
+        // this.form.end_time = '';
+        // this.form.create_time = '';
       },
       //根据id获取当前行的信息
       getForm: function (id) {
@@ -357,6 +397,7 @@
             });
           });
       },
+      //插入数据
       onSubmit(form) {
         var flag = -1;
         var params = new URLSearchParams();
