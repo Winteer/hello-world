@@ -21,6 +21,7 @@
                     <el-date-picker
                       v-model="form.book_time"
                       type="datetime"
+                      value-format="yyyy-MM-dd HH:ii:ss"
                       placeholder="选择日期时间">
                     </el-date-picker>
                   </div>
@@ -209,7 +210,7 @@
         searchWord: '',//搜索字段
         currentPage: 1,//当前页
         pageSize: 5,//页面大小
-        totalNum: 200,//总记录数
+        totalNum: 0,//总记录数
         modifFlag: '',
         dialogTableVisible: false,
         modifyDialogFormVisible: false,//修改表单是否可见标志
@@ -401,11 +402,12 @@
       onSubmit(form) {
         var flag = -1;
         var params = new URLSearchParams();
-        params.append('name', form.name);
-        params.append('address', form.address);
-        params.append('sex', form.sex);
+        params.append('book_time', form.book_time);
+        params.append('phone', form.phone);
+        params.append('room', form.room);
+          params.append('number', form.number);
         this.$axios({
-          url: 'http://127.0.0.1:8000/api/persons/insertPerson',
+          url: 'http://127.0.0.1:8000/book/insertBookInfo',
           method: 'post',
           data: params
         })
