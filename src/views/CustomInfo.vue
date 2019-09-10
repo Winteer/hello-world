@@ -27,7 +27,12 @@
                   </div>
                 </el-form-item>
                 <el-form-item label="预约主题">
-                  <el-input v-model="form.room" style="display: inline-block;width: 230px" placeholder="请输入内容" clearable></el-input>
+<!--                  <el-input v-model="form.room" style="display: inline-block;width: 230px" placeholder="请输入内容" clearable></el-input>-->
+                  <el-select v-model="form.room"  placeholder="请选择">
+                    <el-option label="大宋奇案" value="大宋奇案"></el-option>
+                    <el-option label="玉观音" value="玉观音"></el-option>
+                    <el-option label="鬼娃学校" value="鬼娃学校"></el-option>
+                  </el-select>
                 </el-form-item>
                 <el-form-item label="预约人数">
                   <el-input v-model="form.number" style="display: inline-block;width: 230px" placeholder="请输入内容" clearable></el-input>
@@ -122,7 +127,12 @@
                     </div>
                   </el-form-item>
                   <el-form-item label="预约主题">
-                    <el-input v-model="form.room" style="display: inline-block;width: 230px"></el-input>
+<!--                    <el-input v-model="form.room" style="display: inline-block;width: 230px"></el-input>-->
+                    <el-select v-model="form.room"  placeholder="请选择">
+                      <el-option label="大宋奇案" value="大宋奇案"></el-option>
+                      <el-option label="玉观音" value="玉观音"></el-option>
+                      <el-option label="鬼娃学校" value="鬼娃学校"></el-option>
+                    </el-select>
                   </el-form-item>
                   <el-form-item label="预约人数">
                     <el-input v-model="form.number" style="display: inline-block;width: 230px"></el-input>
