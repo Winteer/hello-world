@@ -85,7 +85,7 @@
               <span style="margin-left: 10px">{{ scope.row.number }}</span>
             </template>
           </el-table-column>
-          <el-table-column prop="phone" label="手机" sortable="custom" width="110">
+          <el-table-column prop="phone" label="手机" sortable="custom" width="140">
             <template slot-scope="scope">
               <span style="margin-left: 10px">{{ scope.row.phone }}</span>
             </template>
