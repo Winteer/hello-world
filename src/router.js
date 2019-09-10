@@ -12,6 +12,7 @@ import MarkDownEditer from './components/MarkDownEditer';
 import CustomRecord from './views/CustomRecord';
 import editor from './views/editor';
 import CustomInfo from "./views/CustomInfo";
+import Upload from './components/Upload';
 
 Vue.use(Router)
 
@@ -43,6 +44,11 @@ export default new Router({
       path: '/markDownEditer',
       name: 'markDownEditer',
       component: MarkDownEditer
+    },
+    {
+      path: '/upload',
+      name: 'upload',
+      component: Upload
     },
     {
       path: '/vueTable',

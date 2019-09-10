@@ -117,33 +117,10 @@
 
           // 此处为图片上传处理函数，这个直接用了base64的图片形式上传图片，
           // 如需ajax上传可参考https://www.tiny.cloud/docs/configure/file-image-upload/#images_upload_handler
-          images_upload_handler: (blobInfo, success, failure) => {
-            const img = 'data:image/jpeg;base64,' + blobInfo.base64();
-            success(img);
-          },
-
-
-
-
-          // images_upload_handler: function(blobInfo, success, failure) {
-          //   var params = new URLSearchParams();
-          //   params.append('fileData', blobInfo.base64());
-          //   params.append('name',blobInfo.filename());
-          //   this.$axios({
-          //     url: 'http://127.0.0.1:8000/api/persons/tinyUploadFile',
-          //     method: 'post',
-          //     data: params
-          //   })
-          //     .then((response) => {
-          //         success(response.data.location);
-          //       console.log('接收到url: '+response.data.get('location'));
-          //     })
-          //     .catch(function (response) {
-          //       alert("图片上传失败");
-          //       console.log(response);
-          //     });
-          // }
-
+          // images_upload_handler: (blobInfo, success, failure) => {
+          //   const img = 'data:image/jpeg;base64,' + blobInfo.base64();
+          //   success(img);
+          // },
 
           // 图片上传三个参数，图片数据，成功时的回调函数，失败时的回调函数
           images_upload_handler: function (blobInfo, success, failure) {

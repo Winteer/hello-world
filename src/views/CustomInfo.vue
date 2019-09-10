@@ -21,7 +21,7 @@
                     <el-date-picker
                       v-model="form.book_time"
                       type="datetime"
-                      value-format="yyyy-MM-dd HH:ii:ss"
+                      value-format="yyyy-MM-dd HH:mm:ss"
                       placeholder="选择日期时间">
                     </el-date-picker>
                   </div>
@@ -32,7 +32,7 @@
                 <el-form-item label="预约人数">
                   <el-input v-model="form.number" style="display: inline-block;width: 230px" placeholder="请输入内容" clearable></el-input>
                 </el-form-item>
-                <el-form-item label="预约号码">
+                <el-form-item label="预约号码" prop="phone">
                   <el-input v-model="form.phone" style="display: inline-block;width: 230px" placeholder="请输入内容" clearable></el-input>
                 </el-form-item>
                 <el-form-item>
@@ -116,6 +116,7 @@
                       <el-date-picker
                         v-model="form.book_time"
                         type="datetime"
+                        value-format="yyyy-MM-dd HH:mm:ss"
                         placeholder="选择日期时间">
                       </el-date-picker>
                     </div>
@@ -135,6 +136,7 @@
                       <el-date-picker
                         v-model="form.start_time"
                         type="datetime"
+                        value-format="yyyy-MM-dd HH:mm:ss"
                         placeholder="选择日期时间">
                       </el-date-picker>
                     </div>
@@ -145,6 +147,7 @@
                       <el-date-picker
                         v-model="form.end_time"
                         type="datetime"
+                        value-format="yyyy-MM-dd HH:mm:ss"
                         placeholder="选择日期时间">
                       </el-date-picker>
                     </div>
@@ -230,16 +233,16 @@
         this.form.phone = '';
         this.form.room = '';
         this.form.number = '';
-        // this.form.start_time = '';
-        // this.form.end_time = '';
-        // this.form.create_time = '';
+        this.form.start_time = '';
+        this.form.end_time = '';
+        this.form.create_time = '';
       },
       //根据id获取当前行的信息
       getForm: function (id) {
         var params = new URLSearchParams();
         params.append('id', id);
         this.$axios({
-          url: 'http://127.0.0.1:8000/api/persons/getInfoByID',
+          url: 'http://127.0.0.1:8000/book/getInfoByID',
           method: 'post',
           data: params
         })
@@ -254,11 +257,15 @@
       modifyForm: function (form) {
         var params = new URLSearchParams();
         params.append('id', form.id);
-        params.append('name', form.name);
-        params.append('address', form.address);
-        params.append('sex', form.sex);
+        params.append('book_time', form.book_time);
+        params.append('phone', form.phone);
+        params.append('room', form.room);
+        params.append('number', form.number);
+        params.append('start_time', form.start_time);
+        params.append('end_time', form.end_time);
+
         this.$axios({
-          url: 'http://127.0.0.1:8000/api/persons/updateForm',
+          url: 'http://127.0.0.1:8000/book/updateForm',
           method: 'post',
           data: params
         })
@@ -292,9 +299,10 @@
         var params = new URLSearchParams();
         params.append('searchWord', searchWord);
         this.$axios({
-          url: 'http://127.0.0.1:8000/api/persons/getCount',
+          url: 'http://127.0.0.1:8000/book/getCount',
           method: 'post',
           data: params
+
         })
           .then((response) => {
             this.totalNum = response.data;
@@ -326,7 +334,7 @@
         params.append('sortColumn', sortColumn);
         params.append('sortMethod', sortMethod);
         this.$axios({
-          url: 'http://127.0.0.1:8000/api/persons/getInfoByPage',
+          url: 'http://127.0.0.1:8000/book/getInfoByPage',
           method: 'post',
           data: params
         })
@@ -365,7 +373,7 @@
         var params = new URLSearchParams();
         params.append('id', id);
         this.$axios({
-          url: 'http://127.0.0.1:8000/api/persons/deleteByID',
+          url: 'http://127.0.0.1:8000/book/deleteByID',
           method: 'post',
           data: params
         })

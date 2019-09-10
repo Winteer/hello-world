@@ -21,7 +21,11 @@
     <div>
       <router-link to="/customInfo">顾客记录表</router-link>
     </div>
+    <div>
+      <router-link to="/upload">上传</router-link>
+    </div>
   </div>
+
 </template>
 
 <script>
