@@ -6,16 +6,23 @@
         <esc-menu></esc-menu>
       </el-header>
 
-      <el-main>
+      <el-main style="text-align: center">
         <el-row :gutter="20">
-          <el-col :span="2">
-            <el-button type="button" @click="initForm(),dialogFormVisible = true">增加信息
-            </el-button>
+          <el-col :span="3">
+            <div class="block">
+              <el-date-picker
+                v-model="current_date"
+                align="right"
+                type="date"
+                value-format="yyyy-MM-dd"
+                placeholder="选择日期"
+                :picker-options="pickerOptions">
+              </el-date-picker>
+            </div>
+          </el-col>
+
             <el-dialog title="新增" :visible.sync="dialogFormVisible">
               <el-form ref="form"  :model="form" label-width="80px" style="text-align: left; font-size: 12px">
-<!--                <el-form-item label="预约时间"  style="margin-left: 0px" >-->
-<!--                  <el-input v-model="form.book_time" style="margin-right: 10px;display: inline-block;width: 230px" placeholder="请输入内容" clearable></el-input>-->
-<!--                </el-form-item>-->
                 <el-form-item label="预约时间"  style="margin-left: 0px" >
                   <div class="block">
                     <el-date-picker
@@ -27,7 +34,6 @@
                   </div>
                 </el-form-item>
                 <el-form-item label="预约主题">
-<!--                  <el-input v-model="form.room" style="display: inline-block;width: 230px" placeholder="请输入内容" clearable></el-input>-->
                   <el-select v-model="form.room"  placeholder="请选择">
                     <el-option label="大宋奇案" value="大宋奇案"></el-option>
                     <el-option label="玉观音" value="玉观音"></el-option>
@@ -37,33 +43,49 @@
                 <el-form-item label="预约人数">
                   <el-input v-model="form.number" style="display: inline-block;width: 230px" placeholder="请输入内容" clearable></el-input>
                 </el-form-item>
-                <el-form-item label="预约号码" prop="phone">
+                <el-form-item label="预约号码">
                   <el-input v-model="form.phone" style="display: inline-block;width: 230px" placeholder="请输入内容" clearable></el-input>
                 </el-form-item>
+                <el-form-item label="支付方式">
+                  <el-select v-model="form.pay_mode"  placeholder="请选择">
+                    <el-option label="支付宝" value="支付宝"></el-option>
+                    <el-option label="微信" value="微信"></el-option>
+                    <el-option label="现金" value="现金"></el-option>
+                    <el-option label="云闪付" value="云闪付"></el-option>
+                  </el-select>
+                </el-form-item>
+                <el-form-item label="支付金额">
+                  <el-input v-model="form.income" style="display: inline-block;width: 230px" placeholder="请输入内容" clearable></el-input>
+                </el-form-item>
                 <el-form-item>
-                  <!-- <el-button type="primary" @click="onSubmit(form.name,form.address,form.sex)">立即创建</el-button> -->
                   <el-button type="primary" @click="onSubmit(form),dialogFormVisible = false">立即创建
                   </el-button>
                   <el-button @click="dialogFormVisible = false">取消</el-button>
                 </el-form-item>
               </el-form>
             </el-dialog>
-          </el-col>
-          <el-col :span="3">
+          <el-col :span="4">
             <div>
-              <el-input v-model="searchWord" style="display: inline-block;width: 230px"
+              <el-input v-model="searchWord" style="width: 300px"
                         placeholder="请输入搜索内容"
                         clearable>
+                <el-button slot="append" icon="el-icon-search"  @click="search(searchWord)">搜索</el-button>
               </el-input>
 
             </div>
           </el-col>
-          <el-col :span="2">
-            <el-button type="button" style="margin-left: 65px" @click="search(searchWord)">搜索
+
+
+          <el-col :span="2"  :offset="8">
+            <el-button type="button" @click="initForm(),dialogFormVisible = true">增加信息
             </el-button>
           </el-col>
         </el-row>
-        <el-table @sort-change="sortChange" :data="tableData" stripe=true border style="width: 100%">
+        <el-table @sort-change="sortChange" :data="tableData"  border style="width: 100%"
+                  v-loading="loading"
+                  element-loading-text="拼命加载中"
+                  element-loading-spinner="el-icon-loading"
+                  element-loading-background="rgba(0, 0, 0, 0.8)">
           <!-- <button @click="selectDemo">点击请求</button> -->
           <el-table-column label="序号"  width="60">
             <template slot-scope="scope">
@@ -90,6 +112,16 @@
               <span style="margin-left: 10px">{{ scope.row.phone }}</span>
             </template>
           </el-table-column>
+          <el-table-column prop="phone" label="支付方式" sortable="custom" width="110">
+            <template slot-scope="scope">
+              <span style="margin-left: 10px">{{ scope.row.pay_mode }}</span>
+            </template>
+          </el-table-column>
+          <el-table-column prop="phone" label="收费" sortable="custom" width="110">
+            <template slot-scope="scope">
+              <span style="margin-left: 10px">{{ scope.row.income }}</span>
+            </template>
+          </el-table-column>
           <el-table-column prop="start_time" label="开始时间" sortable="custom" width="200">
             <template slot-scope="scope">
               <i class="el-icon-time"></i>
@@ -102,18 +134,18 @@
               <span style="margin-left: 10px">{{ scope.row.end_time }}</span>
             </template>
           </el-table-column>
-           <el-table-column prop="create_time" label="创建时间" sortable="custom" width="200">
-            <template slot-scope="scope">
-              <i class="el-icon-time"></i>
-              <span style="margin-left: 10px">{{ scope.row.create_time }}</span>
-            </template>
-          </el-table-column>
+<!--           <el-table-column prop="create_time" label="创建时间" sortable="custom" width="200">-->
+<!--            <template slot-scope="scope">-->
+<!--              <i class="el-icon-time"></i>-->
+<!--              <span style="margin-left: 10px">{{ scope.row.create_time }}</span>-->
+<!--            </template>-->
+<!--          </el-table-column>-->
           <el-table-column label="操作" width="120">
             <template slot-scope="scope">
               <el-button size="mini" type="danger" icon="el-icon-delete"
                          @click="handleDelete(scope.row.id)">删除
               </el-button>
-              <el-dialog title="新增" :visible.sync="modifyDialogFormVisible">
+              <el-dialog title="修改" :visible.sync="modifyDialogFormVisible">
                 <el-form ref="form" :model="form" label-width="80px">
                   <el-form-item label="预约时间">
 <!--                    <el-input v-model="form.book_time" style="display: inline-block;width: 230px"></el-input>-->
@@ -141,7 +173,6 @@
                     <el-input v-model="form.phone" style="display: inline-block;width: 230px"></el-input>
                   </el-form-item>
                   <el-form-item label="开始时间">
-<!--                    <el-input v-model="form.start_time" style="display: inline-block;width: 230px"></el-input>-->
                     <div class="block">
                       <el-date-picker
                         v-model="form.start_time"
@@ -152,7 +183,6 @@
                     </div>
                   </el-form-item>
                   <el-form-item label="结束时间">
-<!--                    <el-input v-model="form.end_time" style="display: inline-block;width: 230px"></el-input>-->
                     <div class="block">
                       <el-date-picker
                         v-model="form.end_time"
@@ -163,7 +193,6 @@
                     </div>
                   </el-form-item>
                   <el-form-item>
-                    <!-- <el-button type="primary" @click="onSubmit(form.name,form.address,form.sex)">立即创建</el-button> -->
                     <el-button type="primary"
                                @click="modifyForm(form),modifyDialogFormVisible = false">立即修改
                     </el-button>
@@ -193,6 +222,7 @@
   import EscapeMenu from '../components/EscapeMenu';
   export default {
     components:{
+
       'esc-menu':EscapeMenu
     },
     data: function () {
@@ -203,6 +233,8 @@
           phone: '',
           room: '',
           number: '',
+          pay_mode:'',
+          income:'',
           start_time: '',
           end_time: '',
           create_time: ''
@@ -213,10 +245,13 @@
           phone: '',
           room: '',
           number: '',
+          pay_mode:'',
+          income:'',
           start_time: '',
           end_time: '',
           create_time: ''
         },
+        current_date:'',  //选择日期查看当天的预约
         sortColumn:'',//排序的字段名
         sortMethod:'',//排序方式；descending ascending null
         pageshow: true,
@@ -228,12 +263,43 @@
         dialogTableVisible: false,
         modifyDialogFormVisible: false,//修改表单是否可见标志
         dialogFormVisible: false,
-        formLabelWidth: '120px'
+        formLabelWidth: '120px',
+        //日期框快捷方法
+        pickerOptions: {
+          disabledDate(time) {
+            return time.getTime() > Date.now();
+          },
+          shortcuts: [{
+            text: '昨天',
+            onClick(picker) {
+              const date = new Date();
+              date.setTime(date.getTime() - 3600 * 1000 * 24);
+              picker.$emit('pick', date);
+            }
+          },{
+            text: '今天',
+            onClick(picker) {
+              picker.$emit('pick', new Date());
+            }
+          }, {
+            text: '明天',
+            onClick(picker) {
+              const date = new Date();
+              date.setTime(date.getTime() + 3600 * 1000 * 24);
+              picker.$emit('pick', date);
+            }
+          }]
+        },
       };
     },
     mounted: function () {
       // this.getCount(this.searchWord);
-      this.getInfoByPage(this.searchWord, this.currentPage, this.pageSize,this.sortColumn,this.sortMethod);
+      let time = new Date();
+      let y = time.getFullYear();
+      let m = time.getMonth()+1;
+      let d = time.getDate();
+      this.current_date = y+'-'+m+'-'+d;
+      this.getInfoByPage(this.searchWord, this.current_date,this.currentPage, this.pageSize,this.sortColumn,this.sortMethod);
     },
     methods: {
       //每次添加完之后清空form，防止下次点击添加时，数据残留
@@ -243,6 +309,8 @@
         this.form.phone = '';
         this.form.room = '';
         this.form.number = '';
+        this.form.pay_mode = '';
+        this.form.income = '';
         this.form.start_time = '';
         this.form.end_time = '';
         this.form.create_time = '';
@@ -271,6 +339,8 @@
         params.append('phone', form.phone);
         params.append('room', form.room);
         params.append('number', form.number);
+        params.append('pay_mode', form.pay_mode);
+        params.append('income', form.income);
         params.append('start_time', form.start_time);
         params.append('end_time', form.end_time);
 
@@ -282,7 +352,7 @@
           .then((response) => {
             this.modifFlag = response.data;
             if (this.modifFlag > 0) {
-              this.getInfoByPage(this.searchWord, this.currentPage, this.pageSize,this.sortColumn,this.sortMethod);
+              this.getInfoByPage(this.searchWord,this.current_date, this.currentPage, this.pageSize,this.sortColumn,this.sortMethod);
               // this.selectDemo();
               this.$message('修改成功！');
             }
@@ -305,9 +375,10 @@
             console.log(response);
           });
       },
-      getCount: function (searchWord) {//获取总记录数
+      getCount: function (searchWord,current_date) {//获取总记录数
         var params = new URLSearchParams();
         params.append('searchWord', searchWord);
+        params.append('current_date', current_date);
         this.$axios({
           url: 'http://127.0.0.1:8000/book/getCount',
           method: 'post',
@@ -324,7 +395,7 @@
       },
       search: function (searchWord) {
         this.currentPage = 1;//搜索完毕后默认第一页
-        this.getInfoByPage(searchWord, this.currentPage, this.pageSize,this.sortColumn,this.sortMethod);
+        this.getInfoByPage(searchWord,this.current_date, this.currentPage, this.pageSize,this.sortColumn,this.sortMethod);
       },
       sortChange(column){
         this.sortColumn = column.prop;
@@ -332,12 +403,13 @@
         if(column.order === null){
           this.sortMethod = "";
         }
-        this.getInfoByPage(this.searchWord, this.currentPage, this.pageSize,this.sortColumn,this.sortMethod);
+        this.getInfoByPage(this.searchWord,this.current_date, this.currentPage, this.pageSize,this.sortColumn,this.sortMethod);
         console.log(column = '-' + column.prop +'-'+column.order);
       },
-      getInfoByPage: function (searchWord, currentPage, pageSize,sortColumn,sortMethod) {
-        this.getCount(searchWord);
+      getInfoByPage: function (searchWord,current_date, currentPage, pageSize,sortColumn,sortMethod) {
+        this.getCount(searchWord,current_date);
         var params = new URLSearchParams();
+        params.append('current_date',current_date);
         params.append('searchWord', searchWord);
         params.append('pageNum', currentPage);
         params.append('pageSize', pageSize);
@@ -390,7 +462,7 @@
           .then((response) => {
             // this.open();
             // this.selectDemo();
-            this.getInfoByPage(this.searchWord, this.currentPage, this.pageSize,this.sortColumn,this.sortMethod);
+            this.getInfoByPage(this.searchWord,this.current_date, this.currentPage, this.pageSize,this.sortColumn,this.sortMethod);
             console.log(response.data);
           })
           .catch(function (response) {
@@ -423,7 +495,9 @@
         params.append('book_time', form.book_time);
         params.append('phone', form.phone);
         params.append('room', form.room);
-          params.append('number', form.number);
+        params.append('number', form.number);
+        params.append('pay_mode', form.pay_mode);
+        params.append('income', form.income);
         this.$axios({
           url: 'http://127.0.0.1:8000/book/insertBookInfo',
           method: 'post',
@@ -436,7 +510,7 @@
             } else {
               this.$message('插入失败！');
             }
-            this.getInfoByPage(this.searchWord, this.currentPage, this.pageSize,this.sortColumn,this.sortMethod);
+            this.getInfoByPage(this.searchWord, this.current_date,this.currentPage, this.pageSize,this.sortColumn,this.sortMethod);
           })
           .catch(function (response) {
           });
@@ -444,12 +518,12 @@
       //分页
       handleSizeChange(val) {
         this.pageSize = val;
-        this.getInfoByPage(this.searchWord, this.currentPage, this.pageSize,this.sortColumn,this.sortMethod);
+        this.getInfoByPage(this.searchWord, this.current_date,this.currentPage, this.pageSize,this.sortColumn,this.sortMethod);
         console.log(`每页 ${val} 条`);
       },
       handleCurrentChange(val) {
         this.currentPage = val;
-        this.getInfoByPage(this.searchWord, this.currentPage, this.pageSize,this.sortColumn,this.sortMethod);
+        this.getInfoByPage(this.searchWord, this.current_date,this.currentPage, this.pageSize,this.sortColumn,this.sortMethod);
         console.log(`当前页: ${val}`);
       }
     }
@@ -463,5 +537,16 @@
     color: #333;
     line-height: 60px;
   }
+
+  .el-dialog{
+    position:absolute;
+    top:50%;
+    left:50%;
+    width: 500px;
+    margin:0 !important;
+    transform:translate(-50%, -50%);
+  }
+
+
 
 </style>

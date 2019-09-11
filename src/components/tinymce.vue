@@ -117,10 +117,10 @@
 
           // 此处为图片上传处理函数，这个直接用了base64的图片形式上传图片，
           // 如需ajax上传可参考https://www.tiny.cloud/docs/configure/file-image-upload/#images_upload_handler
-          // images_upload_handler: (blobInfo, success, failure) => {
-          //   const img = 'data:image/jpeg;base64,' + blobInfo.base64();
-          //   success(img);
-          // },
+          images_upload_handler: (blobInfo, success, failure) => {
+            const img = 'data:image/jpeg;base64,' + blobInfo.base64();
+            success(img);
+          },
 
           // 图片上传三个参数，图片数据，成功时的回调函数，失败时的回调函数
           images_upload_handler: function (blobInfo, success, failure) {
@@ -129,11 +129,11 @@
             // if (blobInfo.blob().size > self.maxSize) {
             //   failure('文件体积过大')
             // }
-            if (self.accept.indexOf(blobInfo.blob().type) >= 0) {
+            // if (self.accept.indexOf(blobInfo.blob().type) >= 0) {
               uploadPic()
-            } else {
-              failure('图片格式错误')
-            }
+            // } else {
+            //   failure('图片格式错误')
+            // }
             function uploadPic () {
               // 服务端接收文件的参数名，文件数据，文件名
               var params = new URLSearchParams();
