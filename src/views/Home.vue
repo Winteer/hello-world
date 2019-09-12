@@ -24,6 +24,9 @@
     <div>
       <router-link to="/upload">上传</router-link>
     </div>
+    <div>
+      <router-link to="/Register">表单验证</router-link>
+    </div>
   </div>
 
 </template>

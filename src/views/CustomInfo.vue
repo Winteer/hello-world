@@ -22,7 +22,7 @@
           </el-col>
 
             <el-dialog title="新增" :visible.sync="dialogFormVisible">
-              <el-form ref="form"  :model="form" label-width="80px" style="text-align: left; font-size: 12px">
+              <el-form ref="form"  :model="form" :rules="rules"  label-width="80px" style="text-align: left; font-size: 12px">
                 <el-form-item label="预约时间"  style="margin-left: 0px" >
                   <div class="block">
                     <el-date-picker
@@ -43,7 +43,7 @@
                 <el-form-item label="预约人数">
                   <el-input v-model="form.number" style="display: inline-block;width: 230px" placeholder="请输入内容" clearable></el-input>
                 </el-form-item>
-                <el-form-item label="预约号码">
+                <el-form-item label="预约号码" prop="phone">
                   <el-input v-model="form.phone" style="display: inline-block;width: 230px" placeholder="请输入内容" clearable></el-input>
                 </el-form-item>
                 <el-form-item label="支付方式">
@@ -51,6 +51,7 @@
                     <el-option label="支付宝" value="支付宝"></el-option>
                     <el-option label="微信" value="微信"></el-option>
                     <el-option label="现金" value="现金"></el-option>
+                    <el-option label="美团" value="美团"></el-option>
                     <el-option label="云闪付" value="云闪付"></el-option>
                   </el-select>
                 </el-form-item>
@@ -58,7 +59,7 @@
                   <el-input v-model="form.income" style="display: inline-block;width: 230px" placeholder="请输入内容" clearable></el-input>
                 </el-form-item>
                 <el-form-item>
-                  <el-button type="primary" @click="onSubmit(form),dialogFormVisible = false">立即创建
+                  <el-button type="primary" @click="onSubmit(form)">立即创建
                   </el-button>
                   <el-button @click="dialogFormVisible = false">取消</el-button>
                 </el-form-item>
@@ -81,11 +82,7 @@
             </el-button>
           </el-col>
         </el-row>
-        <el-table @sort-change="sortChange" :data="tableData"  border style="width: 100%"
-                  v-loading="loading"
-                  element-loading-text="拼命加载中"
-                  element-loading-spinner="el-icon-loading"
-                  element-loading-background="rgba(0, 0, 0, 0.8)">
+        <el-table @sort-change="sortChange" :data="tableData"  border style="width: 100%">
           <!-- <button @click="selectDemo">点击请求</button> -->
           <el-table-column label="序号"  width="60">
             <template slot-scope="scope">
@@ -194,7 +191,7 @@
                   </el-form-item>
                   <el-form-item>
                     <el-button type="primary"
-                               @click="modifyForm(form),modifyDialogFormVisible = false">立即修改
+                               @click="modifyForm(form)">立即修改
                     </el-button>
                     <el-button @click="modifyDialogFormVisible = false">取消</el-button>
                   </el-form-item>
@@ -251,6 +248,11 @@
           end_time: '',
           create_time: ''
         },
+        // rules:{
+        //   phone:[{
+        //     validator:phone
+        //   }]
+        // },
         current_date:'',  //选择日期查看当天的预约
         sortColumn:'',//排序的字段名
         sortMethod:'',//排序方式；descending ascending null
@@ -320,7 +322,7 @@
         var params = new URLSearchParams();
         params.append('id', id);
         this.$axios({
-          url: 'http://127.0.0.1:8000/book/getInfoByID',
+          url: 'http://192.168.1.36:8000/book/getInfoByID',
           method: 'post',
           data: params
         })
@@ -333,38 +335,43 @@
       },
       //根据前台获取的信息修改后台对应的信息
       modifyForm: function (form) {
-        var params = new URLSearchParams();
-        params.append('id', form.id);
-        params.append('book_time', form.book_time);
-        params.append('phone', form.phone);
-        params.append('room', form.room);
-        params.append('number', form.number);
-        params.append('pay_mode', form.pay_mode);
-        params.append('income', form.income);
-        params.append('start_time', form.start_time);
-        params.append('end_time', form.end_time);
 
-        this.$axios({
-          url: 'http://127.0.0.1:8000/book/updateForm',
-          method: 'post',
-          data: params
-        })
-          .then((response) => {
-            this.modifFlag = response.data;
-            if (this.modifFlag > 0) {
-              this.getInfoByPage(this.searchWord,this.current_date, this.currentPage, this.pageSize,this.sortColumn,this.sortMethod);
-              // this.selectDemo();
-              this.$message('修改成功！');
-            }
-            console.log(response.data);
+        if(this.validatePhone(form.phone)){
+          this.modifyDialogFormVisible = false;
+          var params = new URLSearchParams();
+          params.append('id', form.id);
+          params.append('book_time', form.book_time);
+          params.append('phone', form.phone);
+          params.append('room', form.room);
+          params.append('number', form.number);
+          params.append('pay_mode', form.pay_mode);
+          params.append('income', form.income);
+          params.append('start_time', form.start_time);
+          params.append('end_time', form.end_time);
+
+          this.$axios({
+            url: 'http://192.168.1.36:8000/book/updateForm',
+            method: 'post',
+            data: params
           })
-          .catch(function (response) {
-            console.log(response);
-          });
+            .then((response) => {
+              this.modifFlag = response.data;
+              if (this.modifFlag > 0) {
+                this.getInfoByPage(this.searchWord,this.current_date, this.currentPage, this.pageSize,this.sortColumn,this.sortMethod);
+                // this.selectDemo();
+                this.$message('修改成功！');
+              }
+              console.log(response.data);
+            })
+            .catch(function (response) {
+              console.log(response);
+            });
+        }
       },
+
       selectDemo: function () {
         this.$axios({
-          url: 'http://127.0.0.1:8000/api/persons/getAllInfo',
+          url: 'http://192.168.1.36:8000/api/persons/getAllInfo',
           method: 'post'
         })
           .then((response) => {
@@ -380,7 +387,7 @@
         params.append('searchWord', searchWord);
         params.append('current_date', current_date);
         this.$axios({
-          url: 'http://127.0.0.1:8000/book/getCount',
+          url: 'http://192.168.1.36:8000/book/getCount',
           method: 'post',
           data: params
 
@@ -416,7 +423,7 @@
         params.append('sortColumn', sortColumn);
         params.append('sortMethod', sortMethod);
         this.$axios({
-          url: 'http://127.0.0.1:8000/book/getInfoByPage',
+          url: 'http://192.168.1.36:8000/book/getInfoByPage',
           method: 'post',
           data: params
         })
@@ -455,7 +462,7 @@
         var params = new URLSearchParams();
         params.append('id', id);
         this.$axios({
-          url: 'http://127.0.0.1:8000/book/deleteByID',
+          url: 'http://192.168.1.36:8000/book/deleteByID',
           method: 'post',
           data: params
         })
@@ -490,30 +497,34 @@
       },
       //插入数据
       onSubmit(form) {
-        var flag = -1;
-        var params = new URLSearchParams();
-        params.append('book_time', form.book_time);
-        params.append('phone', form.phone);
-        params.append('room', form.room);
-        params.append('number', form.number);
-        params.append('pay_mode', form.pay_mode);
-        params.append('income', form.income);
-        this.$axios({
-          url: 'http://127.0.0.1:8000/book/insertBookInfo',
-          method: 'post',
-          data: params
-        })
-          .then((response) => {
-            flag = response.data;
-            if (flag > 0) {
-              this.$message('插入成功！');
-            } else {
-              this.$message('插入失败！');
-            }
-            this.getInfoByPage(this.searchWord, this.current_date,this.currentPage, this.pageSize,this.sortColumn,this.sortMethod);
+        if (this.validatePhone(form.phone)) {
+          this.dialogFormVisible = false;
+          var flag = -1;
+          var params = new URLSearchParams();
+          params.append('book_time', form.book_time);
+          params.append('phone', form.phone);
+          params.append('room', form.room);
+          params.append('number', form.number);
+          params.append('pay_mode', form.pay_mode);
+          params.append('income', form.income);
+          this.$axios({
+            url: 'http://192.168.1.36:8000/book/insertBookInfo',
+            method: 'post',
+            data: params
           })
-          .catch(function (response) {
-          });
+            .then((response) => {
+              flag = response.data;
+              if (flag > 0) {
+                this.$message('插入成功！');
+              } else {
+                this.$message('插入失败！');
+              }
+              this.getInfoByPage(this.searchWord, this.current_date,this.currentPage, this.pageSize,this.sortColumn,this.sortMethod);
+            })
+            .catch(function (response) {
+            });
+        }
+
       },
       //分页
       handleSizeChange(val) {
@@ -525,6 +536,19 @@
         this.currentPage = val;
         this.getInfoByPage(this.searchWord, this.current_date,this.currentPage, this.pageSize,this.sortColumn,this.sortMethod);
         console.log(`当前页: ${val}`);
+      },
+      //表单验证
+      validatePhone(phone){
+        const reg = 11 && /^((13|14|15|17|18)[0-9]{1}\d{8})$/
+        if (phone !="" && !reg.test(phone)) {
+          this.$message({
+            message:'请输入正确的手机号',
+            center:true
+          })
+          // this.dialogFormVisible = true;
+          return false;
+        }
+        return true;
       }
     }
   };

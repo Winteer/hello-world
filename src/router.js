@@ -13,6 +13,7 @@ import CustomRecord from './views/CustomRecord';
 import editor from './views/editor';
 import CustomInfo from "./views/CustomInfo";
 import Upload from './components/Upload';
+import Register from './views/Register';
 
 Vue.use(Router)
 
@@ -34,6 +35,11 @@ export default new Router({
       path: '/navDemo',
       name: 'navDemo',
       component: NavDemo
+    },
+    {
+      path: '/Register',
+      name: 'Register',
+      component: Register
     },
     {
       path: '/quiNav',
