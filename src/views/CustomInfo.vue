@@ -22,7 +22,7 @@
           </el-col>
 
             <el-dialog title="新增" :visible.sync="dialogFormVisible">
-              <el-form ref="form"  :model="form" :rules="rules"  label-width="80px" style="text-align: left; font-size: 12px">
+              <el-form ref="form"  :model="form"  label-width="80px" style="text-align: left; font-size: 12px">
                 <el-form-item label="预约时间"  style="margin-left: 0px" >
                   <div class="block">
                     <el-date-picker
@@ -41,10 +41,10 @@
                   </el-select>
                 </el-form-item>
                 <el-form-item label="预约人数" prop="number">
-                  <el-input id="addNumber" v-model="form.number" @blur="validateMethod('number','blur')" style="display: inline-block;width: 230px" placeholder="请输入内容" clearable></el-input>
+                  <el-input id="addNumber" v-model="form.number" @blur="validateMethod('number','blur','addNumber')" style="display: inline-block;width: 230px" placeholder="请输入内容" clearable></el-input>
                 </el-form-item>
                 <el-form-item label="预约号码" prop="phone">
-                  <el-input id="addPhone" v-model="form.phone" @blur="validateMethod('phone','blur')" style="display: inline-block;width: 230px" placeholder="请输入内容" clearable></el-input>
+                  <el-input id="addPhone" v-model="form.phone" @blur="validateMethod('phone','blur','addPhone')" style="display: inline-block;width: 230px" placeholder="请输入内容" clearable></el-input>
                 </el-form-item>
                 <el-form-item label="支付方式">
                   <el-select v-model="form.pay_mode"  placeholder="请选择">
@@ -164,10 +164,10 @@
                     </el-select>
                   </el-form-item>
                   <el-form-item label="预约人数" prop="number">
-                    <el-input v-model="form.number"  @blur="validateMethod('number','blur')" style="display: inline-block;width: 230px"></el-input>
+                    <el-input id="modifyNum" v-model="form.number"  @blur="validateMethod('number','blur','modifyNum')" style="display: inline-block;width: 230px"></el-input>
                   </el-form-item>
                    <el-form-item label="手机号码" prop="phone">
-                    <el-input v-model="form.phone"  @blur="validateMethod('phone','blur')" style="display: inline-block;width: 230px"></el-input>
+                    <el-input id="modifyPhone" v-model="form.phone"  @blur="validateMethod('phone','blur','modifyPhone')" style="display: inline-block;width: 230px"></el-input>
                   </el-form-item>
                   <el-form-item label="开始时间">
                     <div class="block">
@@ -334,7 +334,7 @@
       },
       //根据前台获取的信息修改后台对应的信息
       modifyForm: function (form) {
-        if(this.validateAll()){
+        if(this.validateAll('modifyNum','modifyPhone')){
           this.modifyDialogFormVisible = false;
           var params = new URLSearchParams();
           params.append('id', form.id);
@@ -494,7 +494,7 @@
       },
       //插入数据
       onSubmit(form) {
-        if (this.validateAll()) {
+        if (this.validateAll("addNumber","addPhone")) {
           this.dialogFormVisible = false;
           var flag = -1;
           var params = new URLSearchParams();
@@ -535,31 +535,31 @@
         console.log(`当前页: ${val}`);
       },
       //全字段验证
-      validateAll(){
-        if(!this.validateIntger(this.form.number,'人数')){
+      validateAll(numID,phoneID){
+        if(!this.validateIntger(this.form.number,'人数',numID)){
           return false;
-        }else if(!this.validatePhone(this.form.phone,'手机号码')){
+        }else if(!this.validatePhone(this.form.phone,'手机号码',phoneID)){
           return false;
         }
         return true;
       },
       //按照需求进行表单验证
-      validateMethod(name,type){
+      validateMethod(name,type,eleID){
         if(name == "phone"){
           if(type == "blur"){
-            return this.validatePhone(this.form.phone,'手机号码');
+            return this.validatePhone(this.form.phone,'手机号码',eleID);
           }
         }else if(name == "number"){
           if(type == "blur"){
-            return this.validateIntger(this.form.number,'人数');
+            return this.validateIntger(this.form.number,'人数',eleID);
           }
         } else{
           return false;
         }
       },
       //验证手机号
-      validatePhone(phone,field){
-        var addPhone = document.getElementById("addPhone");
+      validatePhone(phone,field,phoneID){
+        var addPhone = document.getElementById(phoneID);
         const reg = 11 && /^((13|14|15|17|18)[0-9]{1}\d{8})$/
         if (phone !="" && !reg.test(phone)) {
           addPhone.style.color="#ff0000";
@@ -569,11 +569,12 @@
           })
           return false;
         }
+        addPhone.style.color="#000000";
         return true;
       },
       //验证是否为数字
-      validateIntger(num,field){
-        var addNumber = document.getElementById("addNumber");
+      validateIntger(num,field,numID){
+        var addNumber = document.getElementById(numID);
         const reg = /^[0-9]+$/
         if (!reg.test(num)) {
           addNumber.style.color = "#ff0000";
@@ -583,6 +584,7 @@
           })
           return false;
         }
+        addNumber.style.color="#000000";
         return true;
       }
     }
