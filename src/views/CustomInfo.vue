@@ -44,7 +44,7 @@
                   <el-input v-model="form.number" style="display: inline-block;width: 230px" placeholder="请输入内容" clearable></el-input>
                 </el-form-item>
                 <el-form-item label="预约号码" prop="phone">
-                  <el-input v-model="form.phone" style="display: inline-block;width: 230px" placeholder="请输入内容" clearable></el-input>
+                  <el-input v-model="form.phone" @blur="validateMethod('phone','blur')" style="display: inline-block;width: 230px" placeholder="请输入内容" clearable></el-input>
                 </el-form-item>
                 <el-form-item label="支付方式">
                   <el-select v-model="form.pay_mode"  placeholder="请选择">
@@ -538,6 +538,15 @@
         console.log(`当前页: ${val}`);
       },
       //表单验证
+      validateMethod(name,type){
+        if(name == "phone"){
+          if(type == "blur"){
+            return this.validatePhone(this.form.phone);
+          }
+        }else{
+          return false;
+        }
+      },
       validatePhone(phone){
         const reg = 11 && /^((13|14|15|17|18)[0-9]{1}\d{8})$/
         if (phone !="" && !reg.test(phone)) {
