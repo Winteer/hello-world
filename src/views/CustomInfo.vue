@@ -65,7 +65,7 @@
                 </el-form-item>
               </el-form>
             </el-dialog>
-          <el-col :span="4">
+          <el-col :span="4"  :offset="1">
             <div>
               <el-input v-model="searchWord" style="width: 300px"
                         placeholder="请输入搜索内容"
@@ -169,6 +169,18 @@
                    <el-form-item label="手机号码" prop="phone">
                     <el-input id="modifyPhone" v-model="form.phone"  @blur="validateMethod('phone','blur','modifyPhone')" style="display: inline-block;width: 230px"></el-input>
                   </el-form-item>
+                  <el-form-item label="支付方式">
+                    <el-select v-model="form.pay_mode"  placeholder="请选择">
+                      <el-option label="支付宝" value="支付宝"></el-option>
+                      <el-option label="微信" value="微信"></el-option>
+                      <el-option label="现金" value="现金"></el-option>
+                      <el-option label="美团" value="美团"></el-option>
+                      <el-option label="云闪付" value="云闪付"></el-option>
+                    </el-select>
+                  </el-form-item>
+                  <el-form-item label="支付金额" >
+                    <el-input v-model="form.income" style="display: inline-block;width: 230px"></el-input>
+                  </el-form-item>
                   <el-form-item label="开始时间">
                     <div class="block">
                       <el-date-picker
@@ -247,11 +259,6 @@
           end_time: '',
           create_time: ''
         },
-        // rules:{
-        //   phone:[{
-        //     validator:phone
-        //   }]
-        // },
         current_date:'',  //选择日期查看当天的预约
         sortColumn:'',//排序的字段名
         sortMethod:'',//排序方式；descending ascending null
@@ -321,7 +328,7 @@
         var params = new URLSearchParams();
         params.append('id', id);
         this.$axios({
-          url: 'http://192.168.1.36:8000/book/getInfoByID',
+          url: 'http://localhost:8000/book/getInfoByID',
           method: 'post',
           data: params
         })
@@ -347,7 +354,7 @@
           params.append('start_time', form.start_time);
           params.append('end_time', form.end_time);
           this.$axios({
-            url: 'http://192.168.1.36:8000/book/updateForm',
+            url: 'http://localhost:8000/book/updateForm',
             method: 'post',
             data: params
           })
@@ -368,7 +375,7 @@
 
       selectDemo: function () {
         this.$axios({
-          url: 'http://192.168.1.36:8000/api/persons/getAllInfo',
+          url: 'http://localhost:8000/api/persons/getAllInfo',
           method: 'post'
         })
           .then((response) => {
@@ -384,7 +391,7 @@
         params.append('searchWord', searchWord);
         params.append('current_date', current_date);
         this.$axios({
-          url: 'http://192.168.1.36:8000/book/getCount',
+          url: 'http://localhost:8000/book/getCount',
           method: 'post',
           data: params
 
@@ -420,7 +427,7 @@
         params.append('sortColumn', sortColumn);
         params.append('sortMethod', sortMethod);
         this.$axios({
-          url: 'http://192.168.1.36:8000/book/getInfoByPage',
+          url: 'http://localhost:8000/book/getInfoByPage',
           method: 'post',
           data: params
         })
@@ -459,7 +466,7 @@
         var params = new URLSearchParams();
         params.append('id', id);
         this.$axios({
-          url: 'http://192.168.1.36:8000/book/deleteByID',
+          url: 'http://localhost:8000/book/deleteByID',
           method: 'post',
           data: params
         })
@@ -505,7 +512,7 @@
           params.append('pay_mode', form.pay_mode);
           params.append('income', form.income);
           this.$axios({
-            url: 'http://192.168.1.36:8000/book/insertBookInfo',
+            url: 'http://localhost:8000/book/insertBookInfo',
             method: 'post',
             data: params
           })

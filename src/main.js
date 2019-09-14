@@ -5,6 +5,7 @@ import store from './store'
 import axios from 'axios'
 import VueAxios from 'vue-axios'
 import ElementUI from 'element-ui'
+import 'url-search-params-polyfill'
 
 Vue.config.productionTip = false;
 Vue.prototype.$axios = axios
