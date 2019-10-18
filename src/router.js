@@ -15,8 +15,10 @@ import CustomInfo from "./views/CustomInfo";
 import Upload from './components/Upload';
 import Register from './views/Register';
 import sync from './views/sync';
+import Charts from './views/Charts';
 
 Vue.use(Router)
+
 
 export default new Router({
   mode: 'history',
@@ -96,6 +98,11 @@ export default new Router({
       path: '/sync',
       name: 'sync',
       component: sync
+    },
+    {
+      path: '/Charts',
+      name: 'Charts',
+      component: Charts
     },
     {
       path: '/about',

@@ -22,6 +22,9 @@
       <router-link to="/customInfo">顾客记录表</router-link>
     </div>
     <div>
+      <router-link to="/Charts">图表</router-link>
+    </div>
+    <div>
       <router-link to="/upload">上传</router-link>
     </div>
     <div>
@@ -30,6 +33,7 @@
     <div>
       <router-link to="/sync">组织人员</router-link>
     </div>
+
   </div>
 
 </template>
