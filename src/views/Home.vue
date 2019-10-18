@@ -27,6 +27,9 @@
     <div>
       <router-link to="/Register">表单验证</router-link>
     </div>
+    <div>
+      <router-link to="/sync">组织人员</router-link>
+    </div>
   </div>
 
 </template>

@@ -14,6 +14,7 @@ import editor from './views/editor';
 import CustomInfo from "./views/CustomInfo";
 import Upload from './components/Upload';
 import Register from './views/Register';
+import sync from './views/sync';
 
 Vue.use(Router)
 
@@ -90,6 +91,11 @@ export default new Router({
       path: '/tableDemo',
       name: 'tableDemo',
       component: TableDemo
+    },
+    {
+      path: '/sync',
+      name: 'sync',
+      component: sync
     },
     {
       path: '/about',

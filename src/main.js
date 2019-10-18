@@ -6,9 +6,12 @@ import axios from 'axios'
 import VueAxios from 'vue-axios'
 import ElementUI from 'element-ui'
 import 'url-search-params-polyfill'
+import echarts from 'echarts'
+
 
 Vue.config.productionTip = false;
 Vue.prototype.$axios = axios
+Vue.prototype.$echarts = echarts
 Vue.use(ElementUI);
 axios.defaults.timeout = 5000 // 请求超时
 
