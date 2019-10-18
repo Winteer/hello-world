@@ -4,6 +4,7 @@
     <p>{{msg}}</p>
   </div>
 </template>
+
 <script>
   import store from '@/store';
 
