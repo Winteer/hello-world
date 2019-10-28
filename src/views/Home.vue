@@ -7,6 +7,9 @@
       <router-link to="/navDemo">导航demo</router-link>
     </div>
     <div>
+      <router-link to="/TimeLine">时间线</router-link>
+    </div>
+    <div>
       <router-link to="/navMenu">菜单demo</router-link>
     </div>
     <div>

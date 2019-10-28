@@ -8,10 +8,10 @@
   <el-main style="text-align: center">
         <div class="block" style="text-align: left">
           <el-select v-model="dateRange"  placeholder="请选择">
-            <el-option label="近七天" value="7"></el-option>
-            <el-option label="近十五天" value="15"></el-option>
-            <el-option label="近六个月" value="6"></el-option>
-            <el-option label="近一年" value="1"></el-option>
+            <el-option label="近七天" value="-6"></el-option>
+            <el-option label="近十五天" value="-14"></el-option>
+            <el-option label="近六个月" value="-5"></el-option>
+            <el-option label="近一年" value="-11"></el-option>
           </el-select>
         </div>
 <!--    <div id="myCharts" style="width:800px; height:500px"></div>-->

@@ -17,6 +17,7 @@ import Register from './views/Register';
 import sync from './views/sync';
 import Charts from './views/Charts';
 import VideoPlayers from './components/VideoPlayers';
+import TimeLine from './components/TimeLine';
 
 Vue.use(Router)
 
@@ -104,6 +105,11 @@ export default new Router({
       path: '/sync',
       name: 'sync',
       component: sync
+    },
+    {
+      path: '/TimeLine',
+      name: 'TimeLine',
+      component: TimeLine
     },
     {
       path: '/Charts',
