@@ -16,6 +16,7 @@ import Upload from './components/Upload';
 import Register from './views/Register';
 import sync from './views/sync';
 import Charts from './views/Charts';
+import VideoPlayers from './components/VideoPlayers';
 
 Vue.use(Router)
 
@@ -43,6 +44,11 @@ export default new Router({
       path: '/Register',
       name: 'Register',
       component: Register
+    },
+    {
+      path:'/VideoPlayers',
+      name:'VideoPlayers',
+      component:VideoPlayers
     },
     {
       path: '/quiNav',

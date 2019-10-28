@@ -33,6 +33,9 @@
     <div>
       <router-link to="/sync">组织人员</router-link>
     </div>
+    <div>
+      <router-link to="/VideoPlayers">视频播放器</router-link>
+    </div>
 
   </div>
 
