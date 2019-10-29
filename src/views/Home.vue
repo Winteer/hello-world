@@ -22,10 +22,10 @@
     <router-link to="/editor">编辑器</router-link>
   </div>
     <div>
-      <router-link to="/customInfo">顾客记录表</router-link>
+      <router-link to="/Charts">图表</router-link>
     </div>
     <div>
-      <router-link to="/Charts">图表</router-link>
+      <router-link to="/customInfo">顾客记录表</router-link>
     </div>
     <div>
       <router-link to="/upload">上传</router-link>

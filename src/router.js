@@ -14,6 +14,8 @@ import editor from './views/editor';
 import CustomInfo from "./views/CustomInfo";
 import Upload from './components/Upload';
 import Register from './views/Register';
+import myEcharts from "./components/myEcharts";
+import enhanceEcharts from "./components/enhanceEcharts";
 import sync from './views/sync';
 import Charts from './views/Charts';
 import VideoPlayers from './components/VideoPlayers';
@@ -50,6 +52,16 @@ export default new Router({
       path:'/VideoPlayers',
       name:'VideoPlayers',
       component:VideoPlayers
+    },
+    {
+      path: '/enhanceEcharts',
+      name: 'enhanceEcharts',
+      component: enhanceEcharts
+    },
+    {
+      path: '/myEcharts',
+      name: 'myEcharts',
+      component: myEcharts
     },
     {
       path: '/quiNav',
