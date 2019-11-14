@@ -1,5 +1,6 @@
 <template>
   <div>
+    <vue-canvas-nest :config="{color:'0,0,0', count: 137}" ></vue-canvas-nest>
     <el-container style="height: 100%; border: 1px solid #eee">
       <el-header style="text-align: left; font-size: 12px">
         <esc-menu></esc-menu>
@@ -29,11 +30,12 @@
 <script>
     import echarts from 'echarts'
     import EscapeMenu from '../components/EscapeMenu';
-
+    import vueCanvasNest from 'vue-canvas-nest'
     export default {
         name: 'Charts',
         components: {
-            'esc-menu': EscapeMenu
+            'esc-menu': EscapeMenu,
+            'vue-canvas-nest':vueCanvasNest
         },
         data() {
             return {
@@ -82,9 +84,11 @@
                 var sumCharts = echarts.init(document.getElementById('sumCharts'));
                 var roomCharts = echarts.init(document.getElementById('roomCharts'));
                 let roomOption = {
-                    // title: {
-                    //   text: '未来一周气温变化',   //图表顶部的标题
-                    // },
+                    title: {
+                      text: '各主题近期收入',   //图表顶部的标题
+                      subtext: '',
+                      x:'left'
+                    },
                     tooltip: {
                         trigger: 'axis',
                         axisPointer: {
@@ -142,9 +146,11 @@
 
 
                 let sumOption = {
-                    // title: {
-                    //   text: '未来一周气温变化',   //图表顶部的标题
-                    // },
+                    title: {
+                      text: '近期总收入',   //图表顶部的标题
+                        subtext: '',
+                        x:'left'
+                    },
                     tooltip: {
                         trigger: 'axis',
                         axisPointer: {

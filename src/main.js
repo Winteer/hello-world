@@ -10,12 +10,10 @@ import echarts from 'echarts'
 import VideoPlayer from 'vue-video-player'
 import 'vue-video-player/src/custom-theme.css'
 import 'video.js/dist/video-js.css'
-
-Vue.use(VideoPlayer)
-
+Vue.use(VideoPlayer);
 Vue.config.productionTip = false;
-Vue.prototype.$axios = axios
-Vue.prototype.$echarts = echarts
+Vue.prototype.$axios = axios;
+Vue.prototype.$echarts = echarts;
 Vue.use(ElementUI);
 axios.defaults.timeout = 5000 // 请求超时
 
