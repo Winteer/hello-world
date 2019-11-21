@@ -36,7 +36,7 @@
                 </div>
               </el-form-item>
               <el-form-item label="预约主题">
-                <el-select v-model="form.room" placeholder="请选择主题">
+                <el-select id="selectRoom" v-model="form.room"  @change="validateMethod('room','blur','selectRoom')" placeholder="请选择主题">
                   <el-option label="大宋奇案" value="大宋奇案"></el-option>
                   <el-option label="玉观音" value="玉观音"></el-option>
                   <el-option label="鬼娃学校" value="鬼娃学校"></el-option>
@@ -55,7 +55,7 @@
                           clearable></el-input>
               </el-form-item>
               <el-form-item label="支付方式">
-                <el-select v-model="form.pay_mode" placeholder="请选择支付方式">
+                <el-select id="selectPay" v-model="form.pay_mode"  @change="validateMethod('pay_mode','blur','selectPay')" placeholder="请选择支付方式">
                   <el-option label="支付宝" value="支付宝"></el-option>
                   <el-option label="微信" value="微信"></el-option>
                   <el-option label="现金" value="现金"></el-option>
@@ -575,7 +575,11 @@
                     }
                 } else if (name == "number") {
                     if (type == "blur") {
-                        return this.validateIntger(this.form.number, '人数', eleID);
+                        return this.validateBookNum(this.form.number, '人数', eleID);
+                    }
+                } else if (name == "pay_mode" || name == "room" ) {
+                    if (type == "blur") {
+                        return this.trueIncome(this.form.room, this.form.number, this.form.pay_mode);
                     }
                 } else {
                     return false;
@@ -596,6 +600,30 @@
                 addPhone.style.color = "#000000";
                 return true;
             },
+            //支付方式更改时，对应修改收入
+            validatePayMode(pay_mode, field, numID) {
+                if (this.form.room === '玉观音' || this.form.room === '大宋奇案') {
+                    this.form.income = this.form.number * 69;
+                } else if (this.form.room === '鬼娃学校') {
+                    this.form.income = this.form.number * 59;
+                }
+                if (pay_mode === '美团' ) {
+                    this.form.income = this.form.income * 0.93;
+                }
+                return true;
+            },
+            //根据密室，人数，支付类型计算实际收入
+            trueIncome(room, number, payMode) {
+                if (room === '玉观音' || room === '大宋奇案') {
+                    this.form.income = number * 69;
+                } else if (this.form.room === '鬼娃学校') {
+                    this.form.income = number * 59;
+                }
+                if (payMode === '美团' ) {
+                    this.form.income = (this.form.income * 0.93).toFixed(2);
+                }
+                return true;
+            },
             //验证是否为数字
             validateIntger(num, field, numID) {
                 var addNumber = document.getElementById(numID);
@@ -608,21 +636,45 @@
                     })
                     return false;
                 }
-                if (this.form.room === '玉观音' || this.form.room === '大宋奇案') {
-                    this.form.income = this.form.number * 69;
-                } else if (this.form.room === '鬼娃学校') {
-                    this.form.income = this.form.number * 59;
-                }
+                // if (this.form.room === '玉观音' || this.form.room === '大宋奇案') {
+                //     this.form.income = this.form.number * 69;
+                // } else if (this.form.room === '鬼娃学校') {
+                //     this.form.income = this.form.number * 59;
+                // }
                 addNumber.style.color = "#000000";
                 return true;
             },
-            calculateIncome() {
-                if (this.form.room === '玉观音' || this.form.room === '大宋奇案') {
-                    this.form.income = this.form.number * 69;
-                } else if (this.form.room === '鬼娃学校') {
-                    this.form.income = this.form.number * 59;
+            //验证预约人数
+            validateBookNum(num, field, numID) {
+                var addNumber = document.getElementById(numID);
+                const reg = /^[0-9]+$/
+                if (!reg.test(num)) {
+                    addNumber.style.color = "#ff0000";
+                    this.$message({
+                        message: '请在' + field + '处输入数字！',
+                        center: true
+                    })
+                    return false;
+                }
+                this.trueIncome(this.form.room, this.form.number, this.form.pay_mode);
+                addNumber.style.color = "#000000";
+                return true;
+            },
+            calculateIncome(room,number) {
+                if (room === '玉观音' || room === '大宋奇案') {
+                    this.form.income = number * 69;
+                } else if (room === '鬼娃学校') {
+                    this.form.income = number * 59;
                 }
             }
+
+            // calculateIncome() {
+            //     if (this.form.room === '玉观音' || this.form.room === '大宋奇案') {
+            //         this.form.income = this.form.number * 69;
+            //     } else if (this.form.room === '鬼娃学校') {
+            //         this.form.income = this.form.number * 59;
+            //     }
+            // }
         }
     };
 </script>

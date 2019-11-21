@@ -1,6 +1,6 @@
 <template>
   <div>
-    <vue-canvas-nest :config="{color:'0,0,0', count: 137}" ></vue-canvas-nest>
+    <vue-canvas-nest :config="{color:'0,0,0', count: 100}" ></vue-canvas-nest>
     <el-container style="height: 100%; border: 1px solid #eee">
       <el-header style="text-align: left; font-size: 12px">
         <esc-menu></esc-menu>
