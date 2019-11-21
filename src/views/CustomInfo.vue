@@ -167,7 +167,7 @@
                   </el-form-item>
                   <el-form-item label="预约主题">
                     <!--                    <el-input v-model="form.room" style="display: inline-block;width: 230px"></el-input>-->
-                    <el-select v-model="form.room" placeholder="请选择">
+                    <el-select v-model="form.room" @change="validateMethod('room','blur','selectRoom')" placeholder="请选择">
                       <el-option label="大宋奇案" value="大宋奇案"></el-option>
                       <el-option label="玉观音" value="玉观音"></el-option>
                       <el-option label="鬼娃学校" value="鬼娃学校"></el-option>
@@ -184,7 +184,7 @@
                               style="display: inline-block;width: 230px"></el-input>
                   </el-form-item>
                   <el-form-item label="支付方式">
-                    <el-select v-model="form.pay_mode" placeholder="请选择">
+                    <el-select v-model="form.pay_mode"  @change="validateMethod('pay_mode','blur','selectPay')" placeholder="请选择">
                       <el-option label="支付宝" value="支付宝"></el-option>
                       <el-option label="微信" value="微信"></el-option>
                       <el-option label="现金" value="现金"></el-option>
