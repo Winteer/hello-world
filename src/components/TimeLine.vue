@@ -31,21 +31,21 @@
       return {
         videoUrl: 'http://192.168.1.36/image/tinymce/test.mp4',//视频url
         activities: [{
-          content: '支持使用图标',
+          content: '视频1',
           timestamp: '2018-04-12 20:46',
           size: 'large',
           type: 'primary',
           icon: 'el-icon-more'
         }, {
-          content: '支持自定义颜色',
+          content: '视频1',
           timestamp: '2018-04-03 20:46',
           color: '#0bbd87'
         }, {
-          content: '支持自定义尺寸',
+          content: '视频1',
           timestamp: '2018-04-03 20:46',
           size: 'large'
         }, {
-          content: '默认样式的节点',
+          content: '视频1',
           timestamp: '2018-04-03 20:46'
         }]
       };

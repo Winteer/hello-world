@@ -20,6 +20,8 @@ import sync from './views/sync';
 import Charts from './views/Charts';
 import VideoPlayers from './components/VideoPlayers';
 import TimeLine from './components/TimeLine';
+import MoreForms from './views/MoreForms';
+import MoreForms_backup from './views/MoreForms_backup';
 
 Vue.use(Router)
 
@@ -112,6 +114,16 @@ export default new Router({
       path: '/tableDemo',
       name: 'tableDemo',
       component: TableDemo
+    },
+    {
+      path: '/MoreForms',
+      name: 'MoreForms',
+      component: MoreForms
+    },
+    {
+      path: '/MoreForms_backup',
+      name: 'MoreForms_backup',
+      component: MoreForms_backup
     },
     {
       path: '/sync',

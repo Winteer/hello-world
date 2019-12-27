@@ -39,6 +39,12 @@
     <div>
       <router-link to="/VideoPlayers">视频播放器</router-link>
     </div>
+    <div>
+      <router-link to="/MoreForms">多表单提交</router-link>
+    </div>
+    <div>
+      <router-link to="/MoreForms_backup">多表单提交_back</router-link>
+    </div>
 
   </div>
 
