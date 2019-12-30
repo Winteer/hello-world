@@ -764,14 +764,13 @@
           .catch(function (response) {
             console.log(response);
           });
-
       },
 
       getExcel(res) {
         require.ensure([], () => {
           const { export_json_to_excel } = require('../../public/excel/Export2Excel.js')
-          const tHeader = ['主题', '电话']
-          const filterVal = ['room', 'phone']
+          const tHeader = ['主题', '电话','办公室']
+          const filterVal = ['room', 'phone','office']
           const list = res
           const data = this.formatJson(filterVal, list)
           export_json_to_excel(tHeader, data, 'test')
