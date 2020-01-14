@@ -118,15 +118,14 @@
             accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/vnd.ms-excel"
             :auto-upload="false">
             <el-button slot="trigger" size="small" type="primary">选取文件</el-button>
-            <el-button style="margin-left: 10px;" size="small" type="success" @click="submitUpload">上传到服务器</el-button>
-            <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>
+            <el-button style="margin-left: 10px;" size="small" type="success" @click="submitUpload">导入</el-button>
+            <div slot="tip" class="el-upload__tip">只能选择Excel文件</div>
           </el-upload>
         </el-dialog>
 
         <el-dialog title="导出Excel" :visible.sync="deriveExcelVisible" width="30%" >
           <el-form ref="form" :model="deriveCondi" label-width="80px"
                    style="text-align: left; font-size: 12px">
-
             <el-form-item label="频度">
               <el-select id="selectTime" v-model="deriveCondi.timeType"
                          placeholder="请选择导出频度">
@@ -721,15 +720,22 @@
         }
       },
 
+      //文件改变
       handleChange(file, fileList){
+        console.log('handleChange');
         this.fileTemp = file.raw
       },
+      //删除文件
       handleRemove(file, fileList) {
+        console.log('handleRemove');
         console.log(file, fileList);
       },
+      //文件预览
       handlePreview(file) {
+        console.log('handlePreview');
         console.log(file);
       },
+      //文件数量限制
       handleExceed(files, fileList) {
         this.$message.warning(`当前限制选择 1 个文件，本次选择了 ${files.length} 个文件，共选择了 ${files.length + fileList.length} 个文件`);
       },
